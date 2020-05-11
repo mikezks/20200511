@@ -1,0 +1,17 @@
+<div class="card">
+  <div class="content">
+    <div class="form-group">
+      <button (click)="sendMessage()" class="btn btn-default">send Message to Shell</button>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="content">
+    <a [routerLink]="[{ outlets: { 'micro-app-passenger': ['home'] }}]">Home</a> |
+    <a [routerLink]="[{ outlets: { 'micro-app-passenger': ['passenger', 'detail'] }}]">Passenger detail</a> |
+    <a [routerLink]="[{ outlets: { 'micro-app-flight': ['flight', 'detail'] }}]">Flight detail</a>
+  </div>
+</div>
+
+<router-outlet name="micro-app-passenger"></router-outlet>

@@ -1,0 +1,39 @@
+{
+  "npmScope": "flight-workspace",
+  "implicitDependencies": {
+    "angular.json": "*",
+    "package.json": "*",
+    "tsconfig.json": "*",
+    "tslint.json": "*",
+    "nx.json": "*"
+  },
+  "projects": {
+    "flight-app-e2e": {
+      "tags": ["e2e"],
+      "implicitDependencies": ["flight-app"]
+    },
+    "flight-app": {
+      "tags": ["flights"]
+    },
+    "flight-api": {
+      "tags": ["flights"]
+    },
+    "micro-app-platform": {
+      "tags": ["flights"]
+    },
+    "micro-app-passenger": {
+      "tags": []
+    },
+    "micro-app-passenger-e2e": {
+      "tags": [],
+      "implicitDependencies": ["micro-app-passenger"]
+    },
+    "micro-app-flight": {
+      "tags": ["flights"]
+    },
+    "micro-app-flight-e2e": {
+      "tags": [],
+      "implicitDependencies": ["micro-app-flight"]
+    }
+  }
+}

@@ -1,0 +1,73 @@
+<div class="card">
+  <div class="header">
+    <h1 class="title">Micro-App: Flight detail</h1>
+  </div>
+
+  <div class="content">
+    <form [formGroup]="editForm">
+
+      <div class="form-group">
+          <label>Id:</label>
+          <input formControlName="id" class="form-control">
+      </div>
+
+      <div class="form-group">
+          <label>Date:</label>
+          <input formControlName="date" class="form-control">
+      </div>
+
+      <div class="form-group">
+          <label>From:</label>
+          <input formControlName="from" class="form-control">
+      </div>
+
+      <div
+          class="alert alert-danger"
+          *ngIf="editForm.get('from').hasError('minlength')">
+          ...minlength...
+      </div>
+
+      <pre *ngIf="editForm.get('from').errors">errors: {{
+        editForm.get('from').errors | json }}</pre>
+
+      <div class="form-group">
+          <label>To:</label>
+          <input formControlName="to" class="form-control">
+      </div>
+
+      <div
+          class="alert alert-danger"
+          *ngIf="editForm.get('to').hasError('minlength')">
+          ...minlength...
+      </div>
+
+      <pre *ngIf="editForm.get('to').errors">errors: {{
+        editForm.get('to').errors | json }}</pre>
+
+      <div class="form-group">
+          <button (click)="save()" class="btn btn-default">Save</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<ng-container *ngIf="flights$ | async as flights">
+  <div class="card">
+    <div class="content">
+      <div class="form-group">
+        <button (click)="load({ from: 'Hamburg', to: 'Graz' })" class="btn btn-default">Load Hamburg-Graz</button>
+        <button (click)="load({ from: 'Wien', to: 'Berlin' })" class="btn btn-default">Load Wien-Berlin</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div *ngFor="let f of flights">
+        <flight-card
+          [item]="f"
+          [selected]="false">
+        </flight-card>
+    </div>
+  </div>
+</ng-container>

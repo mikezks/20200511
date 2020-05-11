@@ -1,0 +1,41 @@
+<div class="card">
+
+  <div class="header">
+    <h2 class="title">Dynamic Search for Flights</h2>
+  </div>
+
+  <div class="content">
+    <form [formGroup]="dynFilter">
+      <ng-container *ngFor="let item of formMetadata">
+        <label>{{ item.label }}:</label>
+        <input
+          [formControlName]="item.name"
+          class="form-control">
+        <br>
+      </ng-container>
+
+      <div class="form-group">
+        <button
+          (click)="search()"
+          [disabled]="dynFilter?.invalid"
+          class="btn btn-default">
+          Search
+        </button>
+      </div>
+    </form>
+  </div>
+
+</div>
+
+<div class="row">
+  <div *ngFor="let f of flights">
+
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <flight-card
+        [item]="f"
+        [(selected)]="basket[f.id]">
+      </flight-card>
+    </div>
+
+  </div>
+</div>

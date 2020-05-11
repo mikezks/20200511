@@ -1,0 +1,27 @@
+<div class="card">
+  <div class="content">
+    <div class="form-group">
+      <span *ngFor="let navItem of navigationConfig; let i=index">
+        <a [routerLink]="navItem.routerLink">{{ navItem.label }}</a>
+        {{ i+1 < navigationConfig.length ? ' |' : '' }}
+      </span>
+    </div>
+
+    <div class="form-group">
+      <button
+        (click)="gridStyle = gridStyle === 'fillColumns' ? 'fillRows': 'fillColumns'"
+        class="btn btn-default">
+        Grid: {{
+          gridStyle === 'fillColumns' ? 'fill rows': 'fill columns'
+        }}</button>
+      <button
+        *ngFor="let microAppKey of microApps.ids"
+        (click)="setMicroAppState(microAppKey)"
+        class="btn btn-default">
+        set State for {{ microAppKey }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div [ngClass]="gridStyle === 'fillColumns' ? 'app-col' : 'app-grid'" #microAppContainer></div>

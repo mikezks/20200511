@@ -1,0 +1,504 @@
+{
+  "version": 1,
+  "projects": {
+    "flight-app": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "apps/flight-app",
+      "sourceRoot": "apps/flight-app/src",
+      "prefix": "flight-workspace",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/flight-app",
+            "index": "apps/flight-app/src/index.html",
+            "main": "apps/flight-app/src/main.ts",
+            "polyfills": "apps/flight-app/src/polyfills.ts",
+            "tsConfig": "apps/flight-app/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/flight-app/src/favicon.ico",
+              "apps/flight-app/src/assets"
+            ],
+            "styles": [
+              "apps/flight-app/src/styles.css",
+              "apps/flight-app/src/assets/css/bootstrap.min.css",
+              "apps/flight-app/src/assets/css/paper-dashboard.css",
+              "apps/flight-app/src/assets/css/demo.css",
+              "apps/flight-app/src/assets/css/themify-icons.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/flight-app/src/environments/environment.ts",
+                  "with": "apps/flight-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "assets": [
+                "apps/flight-app/src/favicon.ico",
+                "apps/flight-app/src/assets",
+                { "glob": "micro-app*/*.js", "input": "dist/apps", "output": "apps" }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "flight-app:build",
+            "proxyConfig": "apps/flight-app/proxy.conf.json",
+            "port": 5000
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "flight-app:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "flight-app:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/flight-app/tsconfig.app.json",
+              "apps/flight-app/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/flight-app/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/flight-app/jest.config.js",
+            "tsConfig": "apps/flight-app/tsconfig.spec.json",
+            "setupFile": "apps/flight-app/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "flight-app-e2e": {
+      "root": "apps/flight-app-e2e",
+      "sourceRoot": "apps/flight-app-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/flight-app-e2e/cypress.json",
+            "tsConfig": "apps/flight-app-e2e/tsconfig.e2e.json",
+            "devServerTarget": "flight-app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "flight-app:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/flight-app-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/flight-app-e2e/**"
+            ]
+          }
+        }
+      }
+    },
+    "flight-api": {
+      "projectType": "library",
+      "root": "libs/flight-api",
+      "sourceRoot": "libs/flight-api/src",
+      "prefix": "flight-workspace",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/flight-api/tsconfig.lib.json",
+              "libs/flight-api/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/flight-api/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/flight-api/jest.config.js",
+            "tsConfig": "libs/flight-api/tsconfig.spec.json",
+            "setupFile": "libs/flight-api/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {}
+    },
+    "micro-app-platform": {
+      "projectType": "library",
+      "root": "libs/micro-app-platform",
+      "sourceRoot": "libs/micro-app-platform/src",
+      "prefix": "flight-workspace",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/micro-app-platform/tsconfig.lib.json",
+            "project": "libs/micro-app-platform/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/micro-app-platform/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/micro-app-platform/tsconfig.lib.json",
+              "libs/micro-app-platform/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/micro-app-platform/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/micro-app-platform/jest.config.js",
+            "tsConfig": "libs/micro-app-platform/tsconfig.spec.json",
+            "setupFile": "libs/micro-app-platform/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {}
+    },
+    "micro-app-passenger": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "apps/micro-app-passenger",
+      "sourceRoot": "apps/micro-app-passenger/src",
+      "prefix": "flight-workspace",
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:browser",
+          "options": {
+            "outputPath": "dist/apps/micro-app-passenger",
+            "index": "apps/micro-app-passenger/src/index.html",
+            "main": "apps/micro-app-passenger/src/main.ts",
+            "polyfills": "apps/micro-app-passenger/src/polyfills.ts",
+            "tsConfig": "apps/micro-app-passenger/tsconfig.app.json",
+            "aot": true,
+            "singleBundle": true,
+            "extra-webpack-config": "apps/micro-app-passenger/webpack.externals.js",
+            "assets": [
+              "apps/micro-app-passenger/src/favicon.ico",
+              "apps/micro-app-passenger/src/assets"
+            ],
+            "styles": [
+              "apps/micro-app-passenger/src/styles.css"
+            ],
+            "scripts": [
+              "node_modules/rxjs/bundles/rxjs.umd.js",
+              "node_modules/@angular/core/bundles/core.umd.js",
+              "node_modules/@angular/common/bundles/common.umd.js",
+              "node_modules/@angular/common/bundles/common-http.umd.js",
+              "node_modules/@angular/elements/bundles/elements.umd.js",
+              "node_modules/@angular/platform-browser/bundles/platform-browser.umd.js",
+              "node_modules/@angular/router/bundles/router.umd.js",
+              "node_modules/@angular/forms/bundles/forms.umd.js"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/micro-app-passenger/src/environments/environment.ts",
+                  "with": "apps/micro-app-passenger/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "options": {
+            "browserTarget": "micro-app-passenger:build",
+            "port": 5200,
+            "singleBundle": true
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "micro-app-passenger:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "micro-app-passenger:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/micro-app-passenger/tsconfig.app.json",
+              "apps/micro-app-passenger/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/micro-app-passenger/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "ngx-build-plus:karma",
+          "options": {
+            "jestConfig": "apps/micro-app-passenger/jest.config.js",
+            "tsConfig": "apps/micro-app-passenger/tsconfig.spec.json",
+            "setupFile": "apps/micro-app-passenger/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "micro-app-passenger-e2e": {
+      "root": "apps/micro-app-passenger-e2e",
+      "sourceRoot": "apps/micro-app-passenger-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/micro-app-passenger-e2e/cypress.json",
+            "tsConfig": "apps/micro-app-passenger-e2e/tsconfig.e2e.json",
+            "devServerTarget": "micro-app-passenger:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "micro-app-passenger:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/micro-app-passenger-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/micro-app-passenger-e2e/**"
+            ]
+          }
+        }
+      }
+    },
+    "micro-app-flight": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "apps/micro-app-flight",
+      "sourceRoot": "apps/micro-app-flight/src",
+      "prefix": "flight-workspace",
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:browser",
+          "options": {
+            "outputPath": "dist/apps/micro-app-flight",
+            "index": "apps/micro-app-flight/src/index.html",
+            "main": "apps/micro-app-flight/src/main.ts",
+            "polyfills": "apps/micro-app-flight/src/polyfills.ts",
+            "tsConfig": "apps/micro-app-flight/tsconfig.app.json",
+            "aot": true,
+            "singleBundle": true,
+            "assets": [
+              "apps/micro-app-flight/src/favicon.ico",
+              "apps/micro-app-flight/src/assets"
+            ],
+            "styles": [
+              "apps/micro-app-flight/src/styles.css"
+            ],
+            "scripts": [
+              {
+                "bundleName": "polyfill-webcomp-es5",
+                "input": "node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"
+              },
+              {
+                "bundleName": "polyfill-webcomp",
+                "input": "node_modules/@webcomponents/webcomponentsjs/bundles/webcomponents-sd-ce-pf.js"
+              }
+            ]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/micro-app-flight/src/environments/environment.ts",
+                  "with": "apps/micro-app-flight/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "options": {
+            "browserTarget": "micro-app-flight:build",
+            "port": 5100,
+            "singleBundle": true
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "micro-app-flight:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "micro-app-flight:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/micro-app-flight/tsconfig.app.json",
+              "apps/micro-app-flight/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/micro-app-flight/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "ngx-build-plus:karma",
+          "options": {
+            "jestConfig": "apps/micro-app-flight/jest.config.js",
+            "tsConfig": "apps/micro-app-flight/tsconfig.spec.json",
+            "setupFile": "apps/micro-app-flight/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "micro-app-flight-e2e": {
+      "root": "apps/micro-app-flight-e2e",
+      "sourceRoot": "apps/micro-app-flight-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/micro-app-flight-e2e/cypress.json",
+            "tsConfig": "apps/micro-app-flight-e2e/tsconfig.e2e.json",
+            "devServerTarget": "micro-app-flight:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "micro-app-flight:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/micro-app-flight-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/micro-app-flight-e2e/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "flight-app"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "@intauria/micro-app-platform",
+  "version": "1.0.0-beta.0",
+  "peerDependencies": {
+    "@angular/common": "^9.1.3",
+    "@angular/core": "^9.1.3",
+    "tslib": "^1.10.0"
+  }
+}

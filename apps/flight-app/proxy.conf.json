@@ -1,0 +1,18 @@
+{
+  "/apps/micro-app-flight": {
+    "target": "http://localhost:5100",
+    "secure": false,
+    "pathRewrite": {
+      "^/apps/micro-app-flight": ""
+    },
+    "changeOrigin": true
+  },
+  "/apps/micro-app-passenger": {
+    "target": "http://localhost:5200",
+    "secure": false,
+    "pathRewrite": {
+      "^/apps/micro-app-passenger": ""
+    },
+    "changeOrigin": true
+  }
+}
